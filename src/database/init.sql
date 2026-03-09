@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS "Order" (
+  orderId VARCHAR(100) PRIMARY KEY,
+  value NUMERIC NOT NULL,
+  creationDate TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "Items" (
+  orderId VARCHAR(100) REFERENCES "Order"(orderId) ON DELETE CASCADE,
+  productId INT,
+  quantity INT,
+  price NUMERIC
+);
