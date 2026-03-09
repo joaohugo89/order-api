@@ -1,5 +1,19 @@
 const db = require("../database/db");
 
+/**
+ * Creates a new order with its items in the database.
+ *
+ * @param {Object} order - The order object
+ * @param {string} order.orderId - Unique order ID
+ * @param {number} order.value - Total value of the order
+ * @param {string} order.creationDate - ISO date string of order creation
+ * @param {Array<Object>} order.items - List of items
+ * @param {number} order.items[].productId - Product ID
+ * @param {number} order.items[].quantity - Quantity of product
+ * @param {number} order.items[].price - Price of product
+ * @returns {Promise<Object>} The created order object
+ * @throws Will throw an error if the transaction fails
+ */
 async function createOrder(order) {
   const client = await db.connect();
 
@@ -32,6 +46,13 @@ async function createOrder(order) {
   }
 }
 
+
+/**
+ * Retrieves a single order by ID, including its items.
+ *
+ * @param {string} orderId - The order ID
+ * @returns {Promise<Object|null>} The order object with items or null if not found
+ */
 async function getOrder(orderId) {
   const order = await db.query(
     `SELECT orderId, value, creationDate 
@@ -55,6 +76,11 @@ async function getOrder(orderId) {
   };
 }
 
+/**
+ * Retrieves all orders without their items.
+ *
+ * @returns {Promise<Array<Object>>} List of all orders
+ */
 async function listOrders() {
   const result = await db.query(
     `SELECT orderId, value, creationDate FROM "Order"`
@@ -63,6 +89,20 @@ async function listOrders() {
   return result.rows;
 }
 
+
+/**
+ * Updates an existing order and its items.
+ *
+ * @param {string} orderId - The order ID to update
+ * @param {Object} order - The updated order object
+ * @param {number} order.value - Updated total value
+ * @param {string} [order.creationDate] - Updated creation date (optional)
+ * @param {Array<Object>} [order.items] - Updated list of items (optional)
+ * @param {number} order.items[].productId - Product ID
+ * @param {number} order.items[].quantity - Quantity of product
+ * @param {number} order.items[].price - Price of product
+ * @returns {Promise<Object>} The updated order object
+ */
 async function updateOrder(orderId, order) {
   const client = await db.connect();
 
@@ -132,6 +172,12 @@ async function updateOrder(orderId, order) {
   }
 }
 
+/**
+ * Deletes an order and all its items.
+ *
+ * @param {string} orderId - The order ID to delete
+ * @returns {Promise<boolean>} True if deleted, false if not found
+ */
 async function deleteOrder(orderId) {
   const client = await db.connect();
 

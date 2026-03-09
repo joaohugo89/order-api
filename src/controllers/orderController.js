@@ -1,6 +1,18 @@
 const orderService = require("../services/orderService");
 const orderRepository = require("../repositories/orderRepository");
 
+/**
+ * Controller for handling order-related HTTP requests.
+ * All functions are async and return JSON responses.
+ */
+
+/**
+ * Create a new order.
+ * @returns {Promise<void>}
+ * @example
+ * // POST /order
+ * // body: { numeroPedido, valorTotal, dataCriacao, items: [{ idItem, quantidadeItem, valorItem }] }
+ */
 exports.createOrder = async (req, res) => {
   try {
     const result = await orderService.createOrder(req.body);
@@ -10,6 +22,12 @@ exports.createOrder = async (req, res) => {
   }
 };
 
+/**
+ * List all orders.
+ * @returns {Promise<void>}
+ * @example
+ * // GET /orders
+ */
 exports.listOrders = async (req, res) => {
   try {
     const orders = await orderService.listOrders();
@@ -19,6 +37,12 @@ exports.listOrders = async (req, res) => {
   }
 };
 
+/**
+ * Get a single order by ID.
+ * @returns {Promise<void>}
+ * @example
+ * // GET /orders/:id
+ */
 exports.getOrder = async (req, res) => {
   try {
     const order = await orderService.getOrder(req.params.id);
@@ -33,6 +57,13 @@ exports.getOrder = async (req, res) => {
   }
 };
 
+/**
+ * Update an existing order by ID.
+ * @returns {Promise<void>}
+ * @example
+ * // PUT /orders/:id
+ * // body: { valorTotal, creationDate?, items? }
+ */
 exports.updateOrder = async (req, res) => {
   try {
     const updatedOrder = await orderService.updateOrder(req.params.id, req.body);
@@ -47,6 +78,13 @@ exports.updateOrder = async (req, res) => {
   }
 };
 
+
+/**
+ * Delete an order by ID.
+ * @returns {Promise<void>}
+ * @example
+ * // DELETE /orders/:id
+ */
 exports.deleteOrder = async (req, res) => {
   try {
     const deleted = await orderService.deleteOrder(req.params.id);
